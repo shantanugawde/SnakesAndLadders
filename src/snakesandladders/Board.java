@@ -23,7 +23,6 @@ public class Board {
                     Square sq = new Square(k,j,i);
                     sq.setMinSize(50, 50);
                     sq.setAlignment(Pos.CENTER);
-                    //squares.add(sq);
                     squares[k]=sq;
                     k++;
                 }
@@ -34,16 +33,14 @@ public class Board {
                     Square sq = new Square(k,j,i);
                     sq.setMinSize(50, 50);
                     sq.setAlignment(Pos.CENTER);
-                    //squares.add(sq);
                     squares[k]=sq;
                     k++;
                 }
             }
         }
-        for(Integer r=1;r<=100;r++){
+        /*for(Integer r=1;r<=100;r++){
             if(r%10==5){
                 squares[r].setDestSquare(squares[rnd.nextInt(101)+1]);
-            }
-        }
+            }*/
     }
 }

@@ -18,6 +18,8 @@ public class Player extends Circle{
     private Integer PlayerID;
     private Square currentSquare=Board.squares[1];
     static Random rnd = new Random();
+    static Integer[] winners=new Integer[4];
+    static Integer winnerNum=-1;
     public Player(){
         super(20.0,new Color(rnd.nextDouble(),rnd.nextDouble(),rnd.nextDouble(),0.5));
         this.PlayerID=Player.NumberOfPlayers+1;
@@ -29,11 +31,17 @@ public class Player extends Circle{
     public void setCurrentSquare(Square sq){
         this.currentSquare=sq;
     }
+    public Integer getPlayerID(){
+        return this.PlayerID;
+    }
     public void move(Integer diceNum){
         if(getCurrentSquare().getSqNumber()+diceNum<=100){
             setCurrentSquare(Board.squares[getCurrentSquare().getSqNumber()+diceNum]);
             this.setTranslateX(getCurrentSquare().getGridX()*50);
             this.setTranslateY(-(9-getCurrentSquare().getGridY())*50);
+            if(getCurrentSquare().getSqNumber()==100){
+                Player.winners[++Player.winnerNum]=this.getPlayerID();
+            }
             try{
             if(getCurrentSquare().getDestSquare()!=null)
                 Thread.sleep(2000);
