@@ -12,6 +12,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -21,7 +23,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Box;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
@@ -39,6 +40,7 @@ public class SnakesAndLadders extends Application {
     Integer currentPlayerIndex=-1;
     static Label prompt = new Label();
     static ImageView imageView = new ImageView();
+    
     @Override
     public void start(Stage primaryStage) {
         GridPane grid = new GridPane();
@@ -48,11 +50,12 @@ public class SnakesAndLadders extends Application {
         hbox.setAlignment(Pos.CENTER);
         
         VBox vbox = new VBox(5.0, grid,hbox);
-        StackPane root = new StackPane(vbox);
+        StackPane root = new StackPane();
        
         vbox.setAlignment(Pos.CENTER);
         Scene scene = new Scene(root, 500, 650);
         Board.initialiseSquares();
+        Board.initialiseSnL(5, 2);
         imageView.setFitWidth(100);
         imageView.setFitHeight(100);
         //root.getChildren().add(imageView);
@@ -71,29 +74,53 @@ public class SnakesAndLadders extends Application {
             grid.add(new Rectangle(50, 50, new Color(rnd.nextDouble(), rnd.nextDouble(),rnd.nextDouble() , 0.3)),
                     sq.getGridX(),sq.getGridY());
         }
+        
+        Canvas canvas = new Canvas(500, 650);
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        
+        gc.setLineWidth(5);
+        
+        for(Integer i=1;i<101;i++){
+            if(Board.squares[i].getDestSquare()!=null){
+                if(Board.squares[i].getDestSquare().getSqNumber()<Board.squares[i].getSqNumber())
+                    gc.setStroke(Color.RED);
+                else if(Board.squares[i].getDestSquare().getSqNumber()>Board.squares[i].getSqNumber())
+                    gc.setStroke(Color.GREEN);
+                gc.strokeLine((Board.squares[i].getGridX())*50+25, (Board.squares[i].getGridY())*50+25, 
+                        (Board.squares[i].getDestSquare().getGridX())*50+25, 
+                        (Board.squares[i].getDestSquare().getGridY())*50+25);
+                
+            }
+        }
+        
         Button addPlayer = new Button("Add Player");
         addPlayer.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent event) {
+                
+            System.out.println("Hello");
                 if(currentPlayerIndex<3){
                     Player pl = new Player();
                     players.add(pl);
                     grid.add(pl,0,9);
                     currentPlayerIndex++;
+                    
                 }
                 else{
                     prompt.setText("Cannot add more than 4 players.");
                 }
             }
         });
-        
+        System.out.println("h");
         grid.setGridLinesVisible(true);
+        
+        root.getChildren().add(canvas);
+        root.getChildren().add(vbox);
         
         hbox.getChildren().add(imageView);
         hbox.getChildren().add(addPlayer);
         vbox.getChildren().add(prompt);
-        
         rollDice.setOnAction(new EventHandler<ActionEvent>(){
                 @Override
                 public void handle(ActionEvent e){

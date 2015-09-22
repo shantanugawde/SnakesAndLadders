@@ -7,6 +7,7 @@ package snakesandladders;
 
 import java.util.Random;
 import javafx.geometry.Pos;
+import javafx.scene.canvas.GraphicsContext;
 
 /**
  *
@@ -38,9 +39,36 @@ public class Board {
                 }
             }
         }
-        /*for(Integer r=1;r<=100;r++){
-            if(r%10==5){
-                squares[r].setDestSquare(squares[rnd.nextInt(101)+1]);
-            }*/
+        
+    }
+    public static void initialiseSnL(Integer snakes, Integer ladders){
+        //initialise snakes
+        Square tempSq;
+        Square tempDestSq;
+        for(Integer i =0;i<snakes;i++){
+            tempSq=Board.squares[rnd.nextInt(98)+2];
+            if(tempSq.getDestSquare()==null){
+                do{
+                    tempDestSq=Board.squares[rnd.nextInt(100)+1];
+                }while(tempDestSq.getSqNumber()>tempSq.getSqNumber());
+                tempSq.setDestSquare(tempDestSq);
+            }
+            else{
+                i--;
+            }
+        }
+        //initialise ladders
+        for(Integer i =0;i<ladders;i++){
+            tempSq=Board.squares[rnd.nextInt(95)+1];
+            if(tempSq.getDestSquare()==null){
+                do{
+                    tempDestSq=Board.squares[rnd.nextInt(100)+1];
+                }while(tempDestSq.getSqNumber()<tempSq.getSqNumber());
+                tempSq.setDestSquare(tempDestSq);
+            }
+            else{
+                i--;
+            }
+        }
     }
 }
