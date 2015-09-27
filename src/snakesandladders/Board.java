@@ -7,7 +7,6 @@ package snakesandladders;
 
 import java.util.Random;
 import javafx.geometry.Pos;
-import javafx.scene.canvas.GraphicsContext;
 
 /**
  *
@@ -15,6 +14,8 @@ import javafx.scene.canvas.GraphicsContext;
  */
 public class Board {
     public static Square[] squares=new Square[101];
+    public static Integer snakes=2;
+    public static Integer ladders=2;
     static Random rnd = new Random();
     public static void initialiseSquares(){
         Integer k=1;
@@ -47,10 +48,12 @@ public class Board {
         Square tempDestSq;
         for(Integer i =0;i<snakes;i++){
             tempSq=Board.squares[rnd.nextInt(98)+2];
-            if(tempSq.getDestSquare()==null){
+            if(tempSq.getDestSquare()==null&&!tempSq.getIsDestSquare()){
                 do{
                     tempDestSq=Board.squares[rnd.nextInt(100)+1];
                 }while(tempDestSq.getSqNumber()>tempSq.getSqNumber());
+                System.out.println(tempDestSq.getIsDestSquare());
+                tempDestSq.setIsDestSquare(Boolean.TRUE);
                 tempSq.setDestSquare(tempDestSq);
             }
             else{
@@ -60,10 +63,12 @@ public class Board {
         //initialise ladders
         for(Integer i =0;i<ladders;i++){
             tempSq=Board.squares[rnd.nextInt(95)+1];
-            if(tempSq.getDestSquare()==null){
+            if(tempSq.getDestSquare()==null&&!tempSq.getIsDestSquare()){
                 do{
                     tempDestSq=Board.squares[rnd.nextInt(100)+1];
                 }while(tempDestSq.getSqNumber()<tempSq.getSqNumber());
+                System.out.println(tempDestSq.getIsDestSquare());
+                tempDestSq.setIsDestSquare(Boolean.TRUE);
                 tempSq.setDestSquare(tempDestSq);
             }
             else{

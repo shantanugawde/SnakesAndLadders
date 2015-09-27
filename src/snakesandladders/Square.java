@@ -18,6 +18,7 @@ public class Square extends Label{
     private Integer GridX;
     private Integer GridY;
     private Square DestSquare=null;
+    private Boolean isDestSquare=false;
     /*
     Currently gridX=gridColumn and gridY=-(9-gridRow)
     */
@@ -49,6 +50,12 @@ public class Square extends Label{
     }
     public Integer getSqNumber(){
         return this.SqNumber;
+    }
+    public void setIsDestSquare(Boolean b){
+        this.isDestSquare=b;
+    }
+    public Boolean getIsDestSquare(){
+        return this.isDestSquare;
     }
     /*public void setSqNumber(Integer num){
         this.sqNumber=num;

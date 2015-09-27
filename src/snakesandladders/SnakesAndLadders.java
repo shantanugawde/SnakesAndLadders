@@ -55,7 +55,7 @@ public class SnakesAndLadders extends Application {
         vbox.setAlignment(Pos.CENTER);
         Scene scene = new Scene(root, 500, 650);
         Board.initialiseSquares();
-        Board.initialiseSnL(5, 2);
+        Board.initialiseSnL(2, 2);
         imageView.setFitWidth(100);
         imageView.setFitHeight(100);
         //root.getChildren().add(imageView);
@@ -129,9 +129,6 @@ public class SnakesAndLadders extends Application {
                     }else{
                         prompt.setText("");
                     Integer num = rnd.nextInt(6)+1;
-                    //System.out.println(num.toString());
-                    //diceDisplay.setText(num.toString());
-                    //Square sq = Board.squares[20];
                     switch(num){
                         case 1:
                             imageView.setImage(one);
@@ -155,6 +152,8 @@ public class SnakesAndLadders extends Application {
                     currentPlayer=(Player)players.get(currentPlayerIndex);
                     currentPlayer.move(num);
                     currentPlayerIndex++;
+                    if(num==6)
+                        currentPlayerIndex--;
                     if(currentPlayerIndex>=Player.NumberOfPlayers)
                         currentPlayerIndex-=Player.NumberOfPlayers;
                     if(Player.winnerNum>=0){
@@ -169,12 +168,13 @@ public class SnakesAndLadders extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         launch(args);
     }
+    
     
 }
