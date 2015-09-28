@@ -7,6 +7,8 @@ package snakesandladders;
 
 import java.util.ArrayList;
 import java.util.Random;
+import javafx.animation.PathTransition;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -23,8 +25,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.CubicCurveTo;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 /**
  *
@@ -55,7 +62,7 @@ public class SnakesAndLadders extends Application {
         vbox.setAlignment(Pos.CENTER);
         Scene scene = new Scene(root, 500, 650);
         Board.initialiseSquares();
-        Board.initialiseSnL(2, 2);
+        Board.initialiseSnL(5, 5);
         imageView.setFitWidth(100);
         imageView.setFitHeight(100);
         //root.getChildren().add(imageView);
@@ -156,13 +163,14 @@ public class SnakesAndLadders extends Application {
                         currentPlayerIndex--;
                     if(currentPlayerIndex>=Player.NumberOfPlayers)
                         currentPlayerIndex-=Player.NumberOfPlayers;
+                    
+                    prompt.setText("Player "+new Integer(currentPlayerIndex+1).toString()+" to play");
                     if(Player.winnerNum>=0){
                         prompt.setText("Player "+Player.winners[Player.winnerNum]+" wins!");
                     }
                     }
                 }
         });
-        
         scene.getStylesheets().add(SnakesAndLadders.class.getResource("SnakesAndLadders.css").toExternalForm());
         primaryStage.setTitle("Snakes and Ladders");
         primaryStage.setScene(scene);

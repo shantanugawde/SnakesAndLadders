@@ -48,10 +48,18 @@ public class Board {
         Square tempDestSq;
         for(Integer i =0;i<snakes;i++){
             tempSq=Board.squares[rnd.nextInt(98)+2];
-            if(tempSq.getDestSquare()==null&&!tempSq.getIsDestSquare()){
+            if(tempSq.getDestSquare()==null){
                 do{
                     tempDestSq=Board.squares[rnd.nextInt(100)+1];
                 }while(tempDestSq.getSqNumber()>tempSq.getSqNumber());
+                if(tempSq.getSqNumber()==tempDestSq.getSqNumber()){
+                    i--;
+                    continue;
+                }
+                else{
+                    tempDestSq.setIsDestSquare(Boolean.TRUE);
+                    tempSq.setDestSquare(tempDestSq);
+                }
                 System.out.println(tempDestSq.getIsDestSquare());
                 tempDestSq.setIsDestSquare(Boolean.TRUE);
                 tempSq.setDestSquare(tempDestSq);
@@ -63,13 +71,19 @@ public class Board {
         //initialise ladders
         for(Integer i =0;i<ladders;i++){
             tempSq=Board.squares[rnd.nextInt(95)+1];
-            if(tempSq.getDestSquare()==null&&!tempSq.getIsDestSquare()){
+            if(tempSq.getDestSquare()==null){
                 do{
                     tempDestSq=Board.squares[rnd.nextInt(100)+1];
                 }while(tempDestSq.getSqNumber()<tempSq.getSqNumber());
                 System.out.println(tempDestSq.getIsDestSquare());
-                tempDestSq.setIsDestSquare(Boolean.TRUE);
-                tempSq.setDestSquare(tempDestSq);
+                if(tempSq.getSqNumber()==tempDestSq.getSqNumber()){
+                    i--;
+                    continue;
+                }
+                else{
+                    tempDestSq.setIsDestSquare(Boolean.TRUE);
+                    tempSq.setDestSquare(tempDestSq);
+                }
             }
             else{
                 i--;

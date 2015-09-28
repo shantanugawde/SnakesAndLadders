@@ -6,8 +6,16 @@
 package snakesandladders;
 
 import java.util.Random;
+import javafx.animation.PathTransition;
+import javafx.animation.Timeline;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.CubicCurveTo;
+import javafx.scene.shape.LineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 /**
  *
@@ -36,24 +44,35 @@ public class Player extends Circle{
     }
     public void move(Integer diceNum){
         if(getCurrentSquare().getSqNumber()+diceNum<=100){
+            Path path = new Path();
+            
+            path.getElements().add(new MoveTo(getCurrentSquare().getGridX()*50,-(9-getCurrentSquare().getGridY())*50));
             setCurrentSquare(Board.squares[getCurrentSquare().getSqNumber()+diceNum]);
-            this.setTranslateX(getCurrentSquare().getGridX()*50);
-            this.setTranslateY(-(9-getCurrentSquare().getGridY())*50);
+            
+            path.getElements().add(new LineTo(getCurrentSquare().getGridX()*50,-(9-getCurrentSquare().getGridY())*50));
+            PathTransition pathTransition = new PathTransition();
+            pathTransition.setDuration(Duration.seconds(1));
+            pathTransition.setPath(path);
+            pathTransition.setNode(this);
+            pathTransition.play();
+            
             if(getCurrentSquare().getSqNumber()==100){
                 Player.winners[++Player.winnerNum]=this.getPlayerID();
             }
-            try{
-            if(getCurrentSquare().getDestSquare()!=null)
-                Thread.sleep(2000);
-            }
-            catch(Exception ex){}
         }
         if(getCurrentSquare().getDestSquare()!=null){
-                System.out.println("In!!!!"+getCurrentSquare().getDestSquare().getSqNumber());
-                setCurrentSquare(getCurrentSquare().getDestSquare());
-                this.setTranslateX(getCurrentSquare().getGridX()*50);
-                this.setTranslateY(-(9-getCurrentSquare().getGridY())*50);
+                Path path = new Path();
+                path.getElements().add(new MoveTo(getCurrentSquare().getGridX()*50,-(9-getCurrentSquare().getGridY())*50));
             
+                setCurrentSquare(getCurrentSquare().getDestSquare());
+                //this.setTranslateX(getCurrentSquare().getGridX()*50);
+                //this.setTranslateY(-(9-getCurrentSquare().getGridY())*50);
+                 path.getElements().add(new LineTo(getCurrentSquare().getGridX()*50,-(9-getCurrentSquare().getGridY())*50));
+            PathTransition pathTransition = new PathTransition();
+            pathTransition.setDuration(Duration.seconds(1));
+            pathTransition.setPath(path);
+            pathTransition.setNode(this);
+            pathTransition.play();
         }
     }
 }
