@@ -7,14 +7,11 @@ package snakesandladders;
 
 import java.util.Random;
 import javafx.animation.PathTransition;
-import javafx.animation.Timeline;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.CubicCurveTo;
 import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 /**
@@ -26,10 +23,11 @@ public class Player extends Circle{
     private Integer PlayerID;
     private Square currentSquare=Board.squares[1];
     static Random rnd = new Random();
-    static Integer[] winners=new Integer[4];
+    //static Integer[] winners=new Integer[4];
     static Integer winnerNum=-1;
     public Player(){
-        super(20.0,new Color(rnd.nextDouble(),rnd.nextDouble(),rnd.nextDouble(),0.5));
+        super(20.0,new Color(rnd.nextDouble(),rnd.nextDouble(),rnd.nextDouble(),0.6));
+        this.centerXProperty().setValue(-5);
         this.PlayerID=Player.NumberOfPlayers+1;
         Player.NumberOfPlayers++;
     }
@@ -57,7 +55,8 @@ public class Player extends Circle{
             pathTransition.play();
             
             if(getCurrentSquare().getSqNumber()==100){
-                Player.winners[++Player.winnerNum]=this.getPlayerID();
+                //Player.winners[++Player.winnerNum]=this.getPlayerID();
+                Player.winnerNum=this.getPlayerID();
             }
         }
         if(getCurrentSquare().getDestSquare()!=null){

@@ -42,51 +42,62 @@ public class Board {
         }
         
     }
-    public static void initialiseSnL(Integer snakes, Integer ladders){
+    public static void initialiseSnL(){
         //initialise snakes
         Square tempSq;
         Square tempDestSq;
-        for(Integer i =0;i<snakes;i++){
-            tempSq=Board.squares[rnd.nextInt(98)+2];
-            if(tempSq.getDestSquare()==null){
+        Integer ind;
+        for(Integer i =0;i<Board.snakes;i++){
+            tempSq=Board.squares[rnd.nextInt(93)+2];
+            if(tempSq.getDestSquare()==null&&tempSq.getIsDestSquare()==Boolean.FALSE){
+                
                 do{
-                    tempDestSq=Board.squares[rnd.nextInt(100)+1];
-                }while(tempDestSq.getSqNumber()>tempSq.getSqNumber());
-                if(tempSq.getSqNumber()==tempDestSq.getSqNumber()){
-                    i--;
-                    continue;
+                    ind=rnd.nextInt(93)+2;
+                }while(ind>tempSq.getSqNumber());
+                
+                tempDestSq=Board.squares[ind];
+                
+                if(tempDestSq.getIsDestSquare()==Boolean.TRUE||tempSq.getSqNumber()==tempDestSq.getSqNumber()
+                        ||tempDestSq.getDestSquare()!=null){
+                        i--;
+                        System.out.println(tempDestSq.getIsDestSquare());
+                        continue;
                 }
                 else{
                     tempDestSq.setIsDestSquare(Boolean.TRUE);
                     tempSq.setDestSquare(tempDestSq);
                 }
-                System.out.println(tempDestSq.getIsDestSquare());
-                tempDestSq.setIsDestSquare(Boolean.TRUE);
-                tempSq.setDestSquare(tempDestSq);
             }
             else{
                 i--;
+                continue;
             }
         }
         //initialise ladders
-        for(Integer i =0;i<ladders;i++){
-            tempSq=Board.squares[rnd.nextInt(95)+1];
-            if(tempSq.getDestSquare()==null){
+        for(Integer i =0;i<Board.ladders;i++){
+            tempSq=Board.squares[rnd.nextInt(93)+2];
+            if(tempSq.getDestSquare()==null&&tempSq.getIsDestSquare()==Boolean.FALSE){
+                
                 do{
-                    tempDestSq=Board.squares[rnd.nextInt(100)+1];
-                }while(tempDestSq.getSqNumber()<tempSq.getSqNumber());
-                System.out.println(tempDestSq.getIsDestSquare());
-                if(tempSq.getSqNumber()==tempDestSq.getSqNumber()){
-                    i--;
-                    continue;
+                    ind=rnd.nextInt(93)+2;
+                }while(ind<tempSq.getSqNumber());
+                tempDestSq=Board.squares[ind];
+                
+                if(tempDestSq.getIsDestSquare()==Boolean.TRUE||tempSq.getSqNumber()==tempDestSq.getSqNumber()
+                        ||tempDestSq.getDestSquare()!=null){
+                        i--;
+                        System.out.println(tempDestSq.getIsDestSquare());
+                        continue;
                 }
                 else{
                     tempDestSq.setIsDestSquare(Boolean.TRUE);
                     tempSq.setDestSquare(tempDestSq);
                 }
+                
             }
             else{
                 i--;
+                continue;
             }
         }
     }

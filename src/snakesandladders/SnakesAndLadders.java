@@ -7,31 +7,30 @@ package snakesandladders;
 
 import java.util.ArrayList;
 import java.util.Random;
-import javafx.animation.PathTransition;
-import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Spinner;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.CubicCurveTo;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 /**
  *
@@ -44,25 +43,59 @@ public class SnakesAndLadders extends Application {
     static Random rnd = new Random();
     Player currentPlayer;
     ArrayList players = new ArrayList<Player>();
-    Integer currentPlayerIndex=-1;
+    Integer currentPlayerIndex=0;
     static Label prompt = new Label();
     static ImageView imageView = new ImageView();
     
+    static Spinner snakecounter= new Spinner(2, 6, 1,1);
+    static Spinner laddercounter= new Spinner(2, 6, 1,1);
+    
+    static Paint[] fills = new Paint[4];
+    static Circle playerCircle = new Circle(10.0);
+    static Label winnerLbl = new Label();
+        
     @Override
     public void start(Stage primaryStage) {
         GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER_RIGHT);
+        grid.setAlignment(Pos.TOP_CENTER);
+        
         Button rollDice = new Button("Roll Dice");
         HBox hbox = new HBox(5.0,rollDice);
         hbox.setAlignment(Pos.CENTER);
+        HBox hbox2 = new HBox(5.0,prompt);
         
-        VBox vbox = new VBox(5.0, grid,hbox);
+        VBox vbox = new VBox(5.0, grid,hbox,hbox2);
         StackPane root = new StackPane();
-       
+        
+        
+        //create init window
+        GridPane initG = new GridPane();
+        initG.alignmentProperty().set(Pos.CENTER);
+        initG.setHgap(10);
+        initG.setVgap(10);
+        initG.setPadding(new Insets(10,10,10,10));
+        primaryStage.setAlwaysOnTop(true);
+        Scene initScene = new Scene(initG,300,200);
+        Button initBtn = new Button("Play");
+        Label l1 = new Label("Snakes: ");
+        Label l2 = new Label("Ladders: ");
+        initG.add(l1,0,0);
+        initG.add(snakecounter, 1, 0);
+        initG.add(l2,0,1);
+        initG.add(laddercounter,1,1);
+        initG.add(initBtn,1,2);
+        primaryStage.centerOnScreen();
+        
+        //end
+        
+        Canvas canvas = new Canvas(500, 650);
+        GraphicsContext gc = canvas.getGraphicsContext2D();
+        
+        gc.setLineWidth(5);
+        
         vbox.setAlignment(Pos.CENTER);
         Scene scene = new Scene(root, 500, 650);
         Board.initialiseSquares();
-        Board.initialiseSnL(5, 5);
         imageView.setFitWidth(100);
         imageView.setFitHeight(100);
         //root.getChildren().add(imageView);
@@ -82,24 +115,9 @@ public class SnakesAndLadders extends Application {
                     sq.getGridX(),sq.getGridY());
         }
         
-        Canvas canvas = new Canvas(500, 650);
-        GraphicsContext gc = canvas.getGraphicsContext2D();
         
-        gc.setLineWidth(5);
         
-        for(Integer i=1;i<101;i++){
-            if(Board.squares[i].getDestSquare()!=null){
-                if(Board.squares[i].getDestSquare().getSqNumber()<Board.squares[i].getSqNumber())
-                    gc.setStroke(Color.RED);
-                else if(Board.squares[i].getDestSquare().getSqNumber()>Board.squares[i].getSqNumber())
-                    gc.setStroke(Color.GREEN);
-                gc.strokeLine((Board.squares[i].getGridX())*50+25, (Board.squares[i].getGridY())*50+25, 
-                        (Board.squares[i].getDestSquare().getGridX())*50+25, 
-                        (Board.squares[i].getDestSquare().getGridY())*50+25);
-                
-            }
-        }
-        
+        playerCircle.setFill(new Color(0, 0, 0, 0));
         Button addPlayer = new Button("Add Player");
         addPlayer.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -107,73 +125,130 @@ public class SnakesAndLadders extends Application {
             public void handle(ActionEvent event) {
                 
             System.out.println("Hello");
-                if(currentPlayerIndex<3){
+                if(Player.NumberOfPlayers<4){
                     Player pl = new Player();
                     players.add(pl);
                     grid.add(pl,0,9);
-                    currentPlayerIndex++;
-                    
+                    System.out.println(Player.NumberOfPlayers);
+                    fills[Player.NumberOfPlayers-1]=pl.getFill();
+                    playerCircle.setFill(fills[0]);
+                    prompt.setText("Player 1 to play");
                 }
                 else{
                     prompt.setText("Cannot add more than 4 players.");
                 }
             }
         });
-        System.out.println("h");
         grid.setGridLinesVisible(true);
         
         root.getChildren().add(canvas);
         root.getChildren().add(vbox);
         
+        //winner scene
+        Rectangle winRect = new Rectangle(500, 650);
+        Rectangle winRect2 = new Rectangle(500, 650);
+        
+        //Scene winSc = new Scene(winnerLbl,500,500);
+        //end
         hbox.getChildren().add(imageView);
         hbox.getChildren().add(addPlayer);
-        vbox.getChildren().add(prompt);
+        hbox2.getChildren().add(playerCircle);
+        hbox2.setAlignment(Pos.CENTER);
         rollDice.setOnAction(new EventHandler<ActionEvent>(){
                 @Override
                 public void handle(ActionEvent e){
-                    if(currentPlayerIndex==-1){
+                    if(Player.NumberOfPlayers==0){
                         prompt.setText("Add players");
                     }else{
                         prompt.setText("");
-                    Integer num = rnd.nextInt(6)+1;
-                    switch(num){
-                        case 1:
-                            imageView.setImage(one);
-                            break;
-                        case 2:
-                            imageView.setImage(two);
-                            break;
-                        case 3:
-                            imageView.setImage(three);
-                            break;
-                        case 4:
-                            imageView.setImage(four);
-                            break;
-                        case 5:
-                            imageView.setImage(five);
-                            break;
-                        case 6:
-                            imageView.setImage(six);
-                            break;
-                    }
-                    currentPlayer=(Player)players.get(currentPlayerIndex);
-                    currentPlayer.move(num);
-                    currentPlayerIndex++;
-                    if(num==6)
-                        currentPlayerIndex--;
-                    if(currentPlayerIndex>=Player.NumberOfPlayers)
-                        currentPlayerIndex-=Player.NumberOfPlayers;
-                    
-                    prompt.setText("Player "+new Integer(currentPlayerIndex+1).toString()+" to play");
-                    if(Player.winnerNum>=0){
-                        prompt.setText("Player "+Player.winners[Player.winnerNum]+" wins!");
-                    }
+                        Integer num = rnd.nextInt(6)+1;
+                        switch(num){
+                            case 1:
+                                imageView.setImage(one);
+                                break;
+                            case 2:
+                                imageView.setImage(two);
+                                break;
+                            case 3:
+                                imageView.setImage(three);
+                                break;
+                            case 4:
+                                imageView.setImage(four);
+                                break;
+                            case 5:
+                                imageView.setImage(five);
+                                break;
+                            case 6:
+                                imageView.setImage(six);
+                                break;
+                        }
+                        currentPlayer=(Player)players.get(currentPlayerIndex);
+                        currentPlayer.move(num);
+                        currentPlayerIndex++;
+                        
+                         
+                        //repeat chance if die shows six
+                        if(num==6)
+                            currentPlayerIndex--;
+                        
+                       
+                        if(currentPlayerIndex>=Player.NumberOfPlayers)
+                            currentPlayerIndex-=Player.NumberOfPlayers;
+                        
+                        playerCircle.setFill(fills[currentPlayerIndex]);
+                       
+                        
+                        prompt.setText("Player "+new Integer(currentPlayerIndex+1).toString()+" to play");
+                        
+                        if(Player.winnerNum>=0){
+                            winnerLbl.setText("Player "+Player.winnerNum+" wins!");
+                            prompt.setText("Congratulations "+Player.winnerNum+"!");
+                            winRect.setFill(fills[Player.winnerNum-1]);
+                            winRect2.setFill(fills[Player.winnerNum-1]);
+                            winnerLbl.setBorder(Border.EMPTY);
+                            //win.setOpacity(1);
+                            //System.out.println("Opacity: "+win.getFill());
+                            root.getChildren().add(winRect);
+                            root.getChildren().add(winRect2);
+                            root.getChildren().add(winnerLbl);
+                        }
                     }
                 }
         });
+        
+        initBtn.setOnAction(new EventHandler<ActionEvent>() {
+
+            @Override
+            public void handle(ActionEvent event) {
+                Board.snakes=(Integer)snakecounter.getValue();
+                Board.ladders=(Integer)laddercounter.getValue();
+                gc.clearRect(0, 0, 500, 650);
+                Board.initialiseSnL();
+                
+                for(Integer i=1;i<101;i++){
+                    if(Board.squares[i].getDestSquare()!=null){
+                        if(Board.squares[i].getDestSquare().getSqNumber()<Board.squares[i].getSqNumber())
+                            gc.setStroke(Color.RED);
+                        else if(Board.squares[i].getDestSquare().getSqNumber()>Board.squares[i].getSqNumber())
+                            gc.setStroke(Color.GREEN);
+                        gc.strokeLine((Board.squares[i].getGridX())*50+25, (Board.squares[i].getGridY())*50+25, 
+                                (Board.squares[i].getDestSquare().getGridX())*50+25, 
+                                (Board.squares[i].getDestSquare().getGridY())*50+25);
+
+                    }
+                }
+                primaryStage.setScene(scene);
+                primaryStage.centerOnScreen();
+        
+            }
+        });
+        
+        initScene.getStylesheets().add(SnakesAndLadders.class.getResource("SnakesAndLadders.css").toExternalForm());
+        //winSc.getStylesheets().add(SnakesAndLadders.class.getResource("SnakesAndLadders.css").toExternalForm());
+        
         scene.getStylesheets().add(SnakesAndLadders.class.getResource("SnakesAndLadders.css").toExternalForm());
         primaryStage.setTitle("Snakes and Ladders");
-        primaryStage.setScene(scene);
+        primaryStage.setScene(initScene);
         primaryStage.show();
     }
     
@@ -181,6 +256,7 @@ public class SnakesAndLadders extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        
         launch(args);
     }
     
