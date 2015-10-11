@@ -200,7 +200,7 @@ public class SnakesAndLadders extends Application {
                         
                         if(Player.winnerNum>=0){
                             winnerLbl.setText("Player "+Player.winnerNum+" wins!");
-                            prompt.setText("Congratulations Player"+Player.winnerNum+"!");
+                            prompt.setText("Congratulations Player "+Player.winnerNum+"!");
                             winRect.setFill(fills[Player.winnerNum-1]);
                             winRect2.setFill(fills[Player.winnerNum-1]);
                             winnerLbl.setBorder(Border.EMPTY);

@@ -9,7 +9,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="SnakesAndLadders.jar" size="953302" download="eager" />
+    <jar href="SnakesAndLadders.jar" size="953256" download="eager" />
   </resources>
 <security>
   <all-permissions/>

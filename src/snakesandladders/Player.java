@@ -23,7 +23,6 @@ public class Player extends Circle{
     private Integer PlayerID;
     private Square currentSquare=Board.squares[1];
     private static Color[] colors={new Color(1, 0, 0, 0.6),new Color(0, 1, 0, 0.6),new Color(0, 0, 1, 0.6),new Color(1, 1, 0, 0.6)};
-    static Random rnd = new Random();
     static Integer winnerNum=-1;
     public Player(){
         super(20.0,colors[Player.NumberOfPlayers]);
