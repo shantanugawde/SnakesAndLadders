@@ -2,14 +2,14 @@
 <jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="SnakesAndLadders.jnlp">
   <information>
     <title>SnakesAndLadders</title>
-    <vendor>Shantanu</vendor>
+    <vendor>Shantanu Gawde</vendor>
     <description>This is a simple implementation of the popular board game using JavaFX</description>
     <icon href="src/snakesandladders/sal2.png"  kind="splash"/>
     <offline-allowed/>
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="SnakesAndLadders.jar" size="953256" download="eager" />
+    <jar href="SnakesAndLadders.jar" size="953118" download="eager" />
   </resources>
 <security>
   <all-permissions/>

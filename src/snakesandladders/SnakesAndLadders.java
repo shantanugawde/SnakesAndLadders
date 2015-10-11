@@ -21,7 +21,6 @@ import javafx.scene.control.Spinner;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -33,27 +32,51 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 /**
- *
+ * This is the class which brings the game together and renders it on the screen.
+ * This class inherits from {@link javafx.application.Application}
+ * All attributes in this class do not have any inherent use as such in Object-Oriented terms.
+ * The are all Nodes which have to be accessed by the event-handlers inside {@link #start(javafx.stage.Stage) start} method of the class.
+ * 
  * @author Shantanu
  */
 public class SnakesAndLadders extends Application {
     
-    static Integer previous=0;
-    static ArrayList squares = new ArrayList<Square>();
+    /**Object of {@link java.util.Random} which is used to roll the dice and for other functionalities.*/
     static Random rnd = new Random();
-    Player currentPlayer;
-    ArrayList players = new ArrayList<Player>();
-    Integer currentPlayerIndex=0;
-    static Label prompt = new Label();
-    static ImageView imageView = new ImageView();
     
+    /**Points to the Player who is to play.*/
+    Player currentPlayer;
+    
+    /**An {@link java.util.ArrayList} of {@link snakesandladders.Player players} on the board.*/
+    ArrayList players = new ArrayList<Player>();
+    
+    /**Points to the index of the current player.*/
+    Integer currentPlayerIndex=0;
+    
+    /**A {@link javafx.scene.control.Label label} which displays prompts to the players.*/
+    static Label prompt = new Label();
+    
+    /**A {@link javafx.scene.image.ImageView} which displays {@link javafx.scene.image.Image} objects of the dice.*/
+    static ImageView imageView = new ImageView();
+        
+    /**{@link javafx.scene.control.Spinner} which is used to set the number of snakes.*/
     static Spinner snakecounter= new Spinner(2, 6, 1,1);
+    
+    /**{@link javafx.scene.control.Spinner} which is used to set the number of ladders.*/
     static Spinner laddercounter= new Spinner(2, 6, 1,1);
     
+    /**An array consisting of the {@link javafx.scene.shape.Circle#getFill() colours} of the added players.*/
     static Paint[] fills = new Paint[4];
+    
+    /**{@link javafx.scene.shape.Circle} which is used to display the colour of the {@link #currentPlayer}.*/
     static Circle playerCircle = new Circle(15.0);
+    
+    /**{@link javafx.scene.control.Label} used to display the winner.*/
     static Label winnerLbl = new Label();
-        
+    
+    /**
+     * Puts the game together.
+     */
     @Override
     public void start(Stage primaryStage) {
         GridPane grid = new GridPane();

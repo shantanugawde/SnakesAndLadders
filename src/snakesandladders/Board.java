@@ -9,14 +9,33 @@ import java.util.Random;
 import javafx.geometry.Pos;
 
 /**
- *
+ * This class initializes all the {@link snakesandladders.Square squares} from 1 to 100(inclusive).
+ * All members of this class are static as an object of this class is not created.
  * @author Shantanu
  */
 public class Board {
+    
+    /**The array which contains the squares.
+     * It is given a size of 101 so as to conveniently start using indices 1 through 100.
+     */
     public static Square[] squares=new Square[101];
+    
+    /**The number of snakes on the board.
+     * By default, this value is set to 2.
+     */
     public static Integer snakes=2;
+    
+    /**The number of ladders on the board.
+     * By default, this value is set to 2.
+     */
     public static Integer ladders=2;
+    
+    /**Object of {@link java.util.Random} which is reused throughout the class.*/
     static Random rnd = new Random();
+    
+    /**This method initializes the {@link snakesandladders.Square squares} from 1 through 100 using nested for loops.
+     * It also assigns them their grid coordinates.
+     */
     public static void initialiseSquares(){
         Integer k=1;
         for(Integer i =9; i>=0;i--){
@@ -40,8 +59,12 @@ public class Board {
                 }
             }
         }
-        
     }
+    
+    /**This method simulates the functionality of snakes and ladders on the board.
+     * This is done by using a {@link #rnd Random generator} and running multiple checks to ensure that no overlap takes place.
+     * The method changes the {@link snakesandladders.Square#DestSquare} attribute of the randomly selected squares.
+     */
     public static void initialiseSnL(){
         //initialise snakes
         Square tempSq;
