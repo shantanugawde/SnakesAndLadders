@@ -57,9 +57,6 @@ public class Square extends Label{
     public Boolean getIsDestSquare(){
         return this.isDestSquare;
     }
-    /*public void setSqNumber(Integer num){
-        this.sqNumber=num;
-    }*/
     public void setDestSquare(Square sq){
         this.DestSquare=sq;
     }

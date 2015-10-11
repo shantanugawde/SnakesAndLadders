@@ -3,13 +3,17 @@
   <information>
     <title>SnakesAndLadders</title>
     <vendor>Shantanu</vendor>
-    <description>null</description>
+    <description>This is a simple implementation of the popular board game using JavaFX</description>
+    <icon href="src/snakesandladders/sal2.png"  kind="splash"/>
     <offline-allowed/>
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="SnakesAndLadders.jar" size="599865" download="eager" />
+    <jar href="SnakesAndLadders.jar" size="953302" download="eager" />
   </resources>
+<security>
+  <all-permissions/>
+</security>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="SnakesAndLadders" >
     <param name="requiredFXVersion" value="8.0+"/>
   </applet-desc>

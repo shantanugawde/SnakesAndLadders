@@ -51,7 +51,7 @@ public class SnakesAndLadders extends Application {
     static Spinner laddercounter= new Spinner(2, 6, 1,1);
     
     static Paint[] fills = new Paint[4];
-    static Circle playerCircle = new Circle(10.0);
+    static Circle playerCircle = new Circle(15.0);
     static Label winnerLbl = new Label();
         
     @Override
@@ -124,12 +124,10 @@ public class SnakesAndLadders extends Application {
             @Override
             public void handle(ActionEvent event) {
                 
-            System.out.println("Hello");
                 if(Player.NumberOfPlayers<4){
                     Player pl = new Player();
                     players.add(pl);
                     grid.add(pl,0,9);
-                    System.out.println(Player.NumberOfPlayers);
                     fills[Player.NumberOfPlayers-1]=pl.getFill();
                     playerCircle.setFill(fills[0]);
                     prompt.setText("Player 1 to play");
@@ -202,12 +200,10 @@ public class SnakesAndLadders extends Application {
                         
                         if(Player.winnerNum>=0){
                             winnerLbl.setText("Player "+Player.winnerNum+" wins!");
-                            prompt.setText("Congratulations "+Player.winnerNum+"!");
+                            prompt.setText("Congratulations Player"+Player.winnerNum+"!");
                             winRect.setFill(fills[Player.winnerNum-1]);
                             winRect2.setFill(fills[Player.winnerNum-1]);
                             winnerLbl.setBorder(Border.EMPTY);
-                            //win.setOpacity(1);
-                            //System.out.println("Opacity: "+win.getFill());
                             root.getChildren().add(winRect);
                             root.getChildren().add(winRect2);
                             root.getChildren().add(winnerLbl);

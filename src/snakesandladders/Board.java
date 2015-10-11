@@ -60,7 +60,6 @@ public class Board {
                 if(tempDestSq.getIsDestSquare()==Boolean.TRUE||tempSq.getSqNumber()==tempDestSq.getSqNumber()
                         ||tempDestSq.getDestSquare()!=null){
                         i--;
-                        System.out.println(tempDestSq.getIsDestSquare());
                         continue;
                 }
                 else{
@@ -86,7 +85,6 @@ public class Board {
                 if(tempDestSq.getIsDestSquare()==Boolean.TRUE||tempSq.getSqNumber()==tempDestSq.getSqNumber()
                         ||tempDestSq.getDestSquare()!=null){
                         i--;
-                        System.out.println(tempDestSq.getIsDestSquare());
                         continue;
                 }
                 else{

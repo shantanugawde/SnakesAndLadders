@@ -22,11 +22,11 @@ public class Player extends Circle{
     public static Integer NumberOfPlayers=0;
     private Integer PlayerID;
     private Square currentSquare=Board.squares[1];
+    private static Color[] colors={new Color(1, 0, 0, 0.6),new Color(0, 1, 0, 0.6),new Color(0, 0, 1, 0.6),new Color(1, 1, 0, 0.6)};
     static Random rnd = new Random();
-    //static Integer[] winners=new Integer[4];
     static Integer winnerNum=-1;
     public Player(){
-        super(20.0,new Color(rnd.nextDouble(),rnd.nextDouble(),rnd.nextDouble(),0.6));
+        super(20.0,colors[Player.NumberOfPlayers]);
         this.centerXProperty().setValue(-5);
         this.PlayerID=Player.NumberOfPlayers+1;
         Player.NumberOfPlayers++;
@@ -64,9 +64,7 @@ public class Player extends Circle{
                 path.getElements().add(new MoveTo(getCurrentSquare().getGridX()*50,-(9-getCurrentSquare().getGridY())*50));
             
                 setCurrentSquare(getCurrentSquare().getDestSquare());
-                //this.setTranslateX(getCurrentSquare().getGridX()*50);
-                //this.setTranslateY(-(9-getCurrentSquare().getGridY())*50);
-                 path.getElements().add(new LineTo(getCurrentSquare().getGridX()*50,-(9-getCurrentSquare().getGridY())*50));
+                path.getElements().add(new LineTo(getCurrentSquare().getGridX()*50,-(9-getCurrentSquare().getGridY())*50));
             PathTransition pathTransition = new PathTransition();
             pathTransition.setDuration(Duration.seconds(1));
             pathTransition.setPath(path);
